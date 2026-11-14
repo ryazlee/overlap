@@ -6,8 +6,12 @@ import { parseTcxFile } from './tcx'
 
 export type TrackFormat = 'gpx' | 'tcx' | 'fit'
 
-const TRACK_ACCEPT =
-  '.gpx,.tcx,.fit,application/gpx+xml,application/vnd.garmin.tcx+xml,application/xml,text/xml'
+/**
+ * iOS Safari/Files greys out GPX when `accept` lists MIME types the system
+ * does not map to those files (e.g. application/gpx+xml, text/xml). Extensions
+ * alone keep the picker usable; we still filter by name/type in JS.
+ */
+const TRACK_ACCEPT = '.gpx,.tcx,.fit'
 
 export function trackFileAccept(): string {
   return TRACK_ACCEPT
