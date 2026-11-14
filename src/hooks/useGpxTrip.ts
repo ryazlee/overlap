@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
 import type { DayRoute, TripStats } from '../types'
 import { summarizeTrip } from '../utils/geo'
-import { isGpxFile, parseGpxFile, sortDayRoutes } from '../utils/gpx'
+import { isTrackFile, parseTrackFile, sortDayRoutes } from '../utils/trackFile'
 
 export function useGpxTrip() {
   const [days, setDays] = useState<DayRoute[]>([])
@@ -11,9 +11,11 @@ export function useGpxTrip() {
   const stats: TripStats = useMemo(() => summarizeTrip(days), [days])
 
   const addFiles = useCallback(async (fileList: FileList | File[]) => {
-    const files = [...fileList].filter(isGpxFile)
+    const files = [...fileList].filter(isTrackFile)
     if (files.length === 0) {
-      setErrors(['Drop .gpx files exported from Strava (or similar).'])
+      setErrors([
+        'Choose GPX, TCX, or FIT exports from Strava, Apple Fitness, Garmin, or similar.',
+      ])
       return
     }
 
@@ -22,12 +24,12 @@ export function useGpxTrip() {
 
     const nextErrors: string[] = []
     const parsed: DayRoute[] = []
-    let orderBase = Date.now()
+    const orderBase = Date.now()
 
     for (let i = 0; i < files.length; i += 1) {
       const file = files[i]!
       try {
-        const route = await parseGpxFile(file, orderBase + i, i)
+        const route = await parseTrackFile(file, orderBase + i, i)
         parsed.push(route)
       } catch (error) {
         nextErrors.push(error instanceof Error ? error.message : `Failed to read ${file.name}`)
