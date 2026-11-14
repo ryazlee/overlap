@@ -295,6 +295,43 @@ a {
   width: 100%;
 }
 
+.upload-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+  width: 100%;
+  text-align: left;
+}
+
+.upload-panel__or {
+  margin: 0;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.upload-panel__hidden-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.upload-panel__note {
+  margin: 0;
+  text-wrap: pretty;
+}
+
 .section-label {
   margin: 0;
   font-size: 0.9375rem;

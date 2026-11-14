@@ -49,11 +49,11 @@ export default function HomeScreen() {
             <div className="home">
               <div className="home__copy">
                 <p className="home__lede">
-                  Drop Strava GPX files to overlay each day on one map, then export a clean PNG.
+                  Overlay multi-day rides on one map, then export a clean PNG.
                 </p>
                 <p className="home__note">
-                  GPX stays in your browser. Map tiles load from CARTO / OpenStreetMap when you view or
-                  export.
+                  Drop GPX, or choose exports from Strava / Apple Fitness on your device. Track files
+                  stay in your browser; map tiles load from CARTO / OpenStreetMap.
                 </p>
               </div>
               <MakerCredit />
@@ -102,8 +102,8 @@ export default function HomeScreen() {
                 <SectionCard title="Add days" plain>
                   <DropZone onFiles={addFiles} busy={busy} compact />
                   <p className="meta meta--sm meta--muted privacy-note">
-                    GPX never leaves this device. Viewing and exporting the map loads tiles from a public
-                    tile provider (CARTO / OpenStreetMap).
+                    Track files never leave this device. Viewing and exporting the map loads tiles from a
+                    public tile provider (CARTO / OpenStreetMap).
                   </p>
                 </SectionCard>
               </aside>

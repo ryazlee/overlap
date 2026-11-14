@@ -1,5 +1,7 @@
-import { useState, type DragEvent, type ChangeEvent } from 'react'
-import { Upload } from 'lucide-react'
+import { useRef, useState, type DragEvent, type ChangeEvent } from 'react'
+import { Smartphone, Upload } from 'lucide-react'
+import Button from './Button'
+import { trackFileAccept } from '../utils/trackFile'
 
 type DropZoneProps = {
   onFiles: (files: FileList | File[]) => void
@@ -8,6 +10,8 @@ type DropZoneProps = {
 }
 
 export default function DropZone({ onFiles, busy = false, compact = false }: DropZoneProps) {
+  const dropInputRef = useRef<HTMLInputElement>(null)
+  const deviceInputRef = useRef<HTMLInputElement>(null)
   const [dragging, setDragging] = useState(false)
 
   function handleFiles(files: FileList | null) {
@@ -39,40 +43,89 @@ export default function DropZone({ onFiles, busy = false, compact = false }: Dro
     event.target.value = ''
   }
 
+  if (compact) {
+    return (
+      <div
+        className={['drop-zone', 'drop-zone--compact', dragging ? 'drop-zone--active' : null, busy ? 'drop-zone--busy' : null]
+          .filter(Boolean)
+          .join(' ')}
+        onDragOver={onDragOver}
+        onDragLeave={onDragLeave}
+        onDrop={onDrop}
+      >
+        <input
+          ref={dropInputRef}
+          type="file"
+          accept={trackFileAccept()}
+          multiple
+          className="drop-zone__input"
+          onChange={onChange}
+          disabled={busy}
+          aria-label="Add track files from device"
+        />
+        <Upload size={18} aria-hidden="true" className="drop-zone__icon" />
+        <div className="drop-zone__copy">
+          <p className="drop-zone__title">{busy ? 'Reading files…' : 'Add more rides'}</p>
+          <p className="drop-zone__hint">GPX, TCX, or FIT from your device.</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div
-      className={[
-        'drop-zone',
-        compact ? 'drop-zone--compact' : null,
-        dragging ? 'drop-zone--active' : null,
-        busy ? 'drop-zone--busy' : null,
-      ]
-        .filter(Boolean)
-        .join(' ')}
-      onDragOver={onDragOver}
-      onDragLeave={onDragLeave}
-      onDrop={onDrop}
-    >
+    <div className="upload-panel">
+      <div
+        className={['drop-zone', dragging ? 'drop-zone--active' : null, busy ? 'drop-zone--busy' : null]
+          .filter(Boolean)
+          .join(' ')}
+        onDragOver={onDragOver}
+        onDragLeave={onDragLeave}
+        onDrop={onDrop}
+      >
+        <input
+          ref={dropInputRef}
+          type="file"
+          accept={trackFileAccept()}
+          multiple
+          className="drop-zone__input"
+          onChange={onChange}
+          disabled={busy}
+          aria-label="Choose GPX files"
+        />
+        <Upload size={22} aria-hidden="true" className="drop-zone__icon" />
+        <div className="drop-zone__copy">
+          <p className="drop-zone__title">{busy ? 'Reading files…' : 'Drop GPX files here'}</p>
+          <p className="drop-zone__hint">Classic Strava / Garmin GPX exports work here too.</p>
+        </div>
+      </div>
+
+      <p className="upload-panel__or" aria-hidden="true">
+        or
+      </p>
+
       <input
+        ref={deviceInputRef}
         type="file"
-        accept=".gpx,application/gpx+xml,application/xml,text/xml"
+        accept={trackFileAccept()}
         multiple
-        className="drop-zone__input"
+        className="upload-panel__hidden-input"
         onChange={onChange}
         disabled={busy}
-        aria-label={compact ? 'Add GPX files' : 'Choose GPX files'}
+        aria-hidden="true"
+        tabIndex={-1}
       />
-      <Upload size={compact ? 18 : 22} aria-hidden="true" className="drop-zone__icon" />
-      <div className="drop-zone__copy">
-        <p className="drop-zone__title">
-          {busy ? 'Reading GPX…' : compact ? 'Add more GPX' : 'Drop Strava GPX files here'}
-        </p>
-        <p className="drop-zone__hint">
-          {compact
-            ? 'Click or drop to add days.'
-            : 'Click or drop .gpx files. Parsed only in your browser.'}
-        </p>
-      </div>
+      <Button
+        label="Choose from device"
+        variant="secondary"
+        icon={<Smartphone size={16} aria-hidden="true" />}
+        onClick={() => deviceInputRef.current?.click()}
+        disabled={busy}
+        block
+      />
+      <p className="meta meta--sm meta--muted upload-panel__note">
+        Opens your phone or computer file picker — pick GPX, TCX, or FIT exports from Strava, Apple
+        Fitness, Garmin, and similar. Parsed only in your browser.
+      </p>
     </div>
   )
 }

@@ -1,14 +1,16 @@
 # Overlap
 
-Simple multi-day cycling map generator. Drop Strava (or other) GPX files into the browser, overlay each day on one Leaflet map, and export a high-res PNG.
+Simple multi-day cycling map generator. Drop GPX files or choose ride exports from your device (Strava, Apple Fitness, Garmin, and similar), overlay each day on one Leaflet map, and export a high-res PNG.
 
-**Live:** [ryazlee.github.io/overlap](https://ryazlee.github.io/overlap/) (after GitHub Pages is enabled)
+Supports **GPX**, **TCX**, and **FIT**. There is no Strava/Apple login — export a file from the app, then pick it here.
+
+**Live:** [ryazlee.github.io/overlap](https://ryazlee.github.io/overlap/)
 
 ## Privacy
 
-- **GPX stays local.** Files are parsed in your browser. Nothing is uploaded to a server, and there is no login or account.
+- **Track files stay local.** GPX / TCX / FIT are parsed in your browser. Nothing is uploaded to a server, and there is no login or account.
 - **Map tiles are remote.** Viewing and exporting the map loads tiles from a public provider ([CARTO](https://carto.com/) basemaps / [OpenStreetMap](https://www.openstreetmap.org/copyright) data). Your approximate map viewport is visible to that provider the same way it is on any map site.
-- **Analytics.** Anonymous pageviews go to GoatCounter. Paths only — no GPX content, filenames, or hashes.
+- **Analytics.** Anonymous pageviews go to GoatCounter. Paths only — no track content, filenames, or hashes.
 
 Exported PNGs have no Overlap watermark.
 
