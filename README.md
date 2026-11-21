@@ -14,10 +14,22 @@ Supports **GPX**, **TCX**, and **FIT**. There is no Strava/Apple login — expor
 
 Exported PNGs have no Overlap watermark.
 
+## Map tiles (CARTO key)
+
+Basemap tiles need a free [CARTO Basemaps API key](https://carto.com/basemaps/apikey/). Without it the map shows an “API KEY REQUIRED” watermark.
+
+- **Local:** copy `.env.example` → `.env.local` and set `VITE_CARTO_API_KEY=…`
+- **GitHub Pages:** repo **Settings → Secrets and variables → Actions** → New repository secret  
+  - Name: `CARTO_API_KEY`  
+  - Value: your key  
+
+The deploy workflow injects it at build time as `VITE_CARTO_API_KEY`. Prefer locking the key to `ryazlee.github.io` in the CARTO basemaps dashboard.
+
 ## Develop
 
 ```bash
 npm ci
+cp .env.example .env.local   # then add your CARTO key
 npm run dev
 ```
 

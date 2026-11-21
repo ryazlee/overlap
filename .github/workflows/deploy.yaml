@@ -26,7 +26,11 @@ jobs:
           cache: npm
 
       - run: npm ci
-      - run: npm run build
+      - name: Build
+        env:
+          # Free CARTO basemap key — set in repo Settings → Secrets and variables → Actions
+          VITE_CARTO_API_KEY: ${{ secrets.CARTO_API_KEY }}
+        run: npm run build
 
       - uses: actions/upload-pages-artifact@v3
         with:
