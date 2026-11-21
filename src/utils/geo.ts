@@ -60,16 +60,43 @@ export function summarizeTrip(days: DayRoute[]): TripStats {
         ? gains.reduce<number>((sum, g) => sum + (g ?? 0), 0)
         : null
 
+  const durations = days.map((d) => d.durationMs)
+  const totalDurationMs = durations.every((d) => d != null) && durations.length > 0
+    ? durations.reduce<number>((sum, d) => sum + (d ?? 0), 0)
+    : durations.some((d) => d != null)
+      ? durations.reduce<number>((sum, d) => sum + (d ?? 0), 0)
+      : null
+
   return {
     dayCount,
     totalKm,
+    totalDurationMs,
     elevationGainM,
   }
+}
+
+export function kmToMiles(km: number): number {
+  return km * 0.621371
 }
 
 export function formatKm(km: number): string {
   if (km < 10) return `${km.toFixed(1)} km`
   return `${Math.round(km)} km`
+}
+
+export function formatMiles(km: number): string {
+  const miles = kmToMiles(km)
+  if (miles < 10) return `${miles.toFixed(1)} mi`
+  return `${Math.round(miles)} mi`
+}
+
+export function formatDuration(ms: number): string {
+  const totalMinutes = Math.round(ms / 60_000)
+  if (totalMinutes < 60) return `${totalMinutes} min`
+  const hours = Math.floor(totalMinutes / 60)
+  const minutes = totalMinutes % 60
+  if (minutes === 0) return `${hours}h`
+  return `${hours}h ${minutes}m`
 }
 
 export function formatElevation(meters: number): string {
