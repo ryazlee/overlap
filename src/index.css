@@ -665,7 +665,7 @@ a {
   flex-wrap: wrap;
   gap: 0.45rem 0.75rem;
   padding: 0.65rem 0.85rem 0.35rem;
-  background: var(--surface);
+  background: #0b0b0d;
 }
 
 .map-capture__chip {
@@ -674,7 +674,7 @@ a {
   gap: 0.35rem;
   font-size: 0.75rem;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: #ffffff;
 }
 
 .map-capture__dot {
@@ -688,7 +688,8 @@ a {
   margin: 0;
   padding: 0 0.85rem 0.65rem;
   font-size: 0.6875rem;
-  color: var(--text-muted);
+  color: rgb(255 255 255 / 72%);
+  background: #0b0b0d;
 }
 
 /* Map / export options */
