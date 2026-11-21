@@ -6,10 +6,18 @@ import { useTheme } from '../theme'
 
 const FALLBACK_CENTER: [number, number] = [37.7749, -122.4194]
 
-/** CARTO basemaps allow CORS / canvas export (unlike raw OSM tile CDN). */
+/** CARTO basemaps allow CORS / canvas export (unlike raw OSM tile CDN). Requires a free basemap API key. */
 const LIGHT_TILES = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
 const DARK_TILES = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-const TILE_ATTR = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+const TILE_ATTR =
+  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+
+function cartoTileUrl(base: string): string {
+  const key = import.meta.env.VITE_CARTO_API_KEY?.trim()
+  if (!key) return base
+  const sep = base.includes('?') ? '&' : '?'
+  return `${base}${sep}key=${encodeURIComponent(key)}`
+}
 
 type TripMapProps = {
   days: DayRoute[]
@@ -78,7 +86,7 @@ export default function TripMap({ days }: TripMapProps) {
       className="trip-map__leaflet"
     >
       <TileLayer
-        url={theme === 'dark' ? DARK_TILES : LIGHT_TILES}
+        url={cartoTileUrl(theme === 'dark' ? DARK_TILES : LIGHT_TILES)}
         attribution={TILE_ATTR}
         crossOrigin="anonymous"
       />
