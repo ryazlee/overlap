@@ -193,6 +193,10 @@ a {
   object-fit: contain;
 }
 
+html.theme-dark .brand__mark {
+  filter: invert(1);
+}
+
 .app-header--quiet .brand__mark {
   width: 1.25rem;
   height: 1.25rem;
