@@ -66,7 +66,7 @@ function FitBounds({ days }: { days: DayRoute[] }) {
     }
 
     const bounds = latLngBounds(points.map((p) => [p.lat, p.lng] as [number, number]))
-    map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 })
+    map.fitBounds(bounds, { padding: [40, 40], maxZoom: 16 })
   }, [map, key, days])
 
   return null
@@ -124,6 +124,9 @@ export default function TripMap({
     <MapContainer
       center={startCenter}
       zoom={12}
+      zoomSnap={0.25}
+      zoomDelta={0.25}
+      wheelPxPerZoomLevel={100}
       scrollWheelZoom
       className="trip-map__leaflet"
     >
