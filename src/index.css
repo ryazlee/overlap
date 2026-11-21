@@ -691,11 +691,57 @@ a {
   color: var(--text-muted);
 }
 
+/* Map / export options */
+.map-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border);
+}
+
+.map-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.map-option__input {
+  margin: 0.2rem 0 0;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+}
+
+.map-option__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.map-option__label {
+  font-size: 0.8125rem;
+  font-weight: 550;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.map-option__hint {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
 /* Stats + legend */
 .trip-stats {
   margin: 0 0 1rem;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.5rem;
 }
 
@@ -777,6 +823,52 @@ a {
   margin: 0.1rem 0 0;
   font-size: 0.75rem;
   color: var(--text-muted);
+}
+
+.day-legend__places {
+  margin: 0.15rem 0 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.map-capture--transparent,
+.map-capture--transparent .map-capture__legend,
+.map-capture--transparent .map-capture__credit {
+  background: transparent;
+}
+
+.map-capture--transparent .trip-map__leaflet.leaflet-container {
+  background: transparent;
+}
+
+.map-capture__chip-text {
+  max-width: 18rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.place-label {
+  background: transparent !important;
+  border: none !important;
+}
+
+.place-label__text {
+  display: inline-block;
+  transform: translate(-50%, -120%);
+  padding: 0.2rem 0.45rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 12%);
+  pointer-events: none;
 }
 
 @media (min-width: 900px) {

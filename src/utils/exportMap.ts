@@ -58,18 +58,27 @@ function downloadBlob(blob: Blob, filename: string): void {
   window.setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 
-export function exportFilename(dayCount: number): string {
+export function exportFilename(dayCount: number, transparent = false): string {
   const stamp = new Date().toISOString().slice(0, 10)
-  return `overlap-${dayCount}-day-${stamp}.png`
+  const suffix = transparent ? '-transparent' : ''
+  return `overlap-${dayCount}-day${suffix}-${stamp}.png`
+}
+
+export type CaptureMapOptions = {
+  transparent?: boolean
 }
 
 /**
  * High-res PNG of the map capture root.
  * Requires tile images loaded with crossOrigin=anonymous (CARTO basemaps).
  */
-export async function captureMapPng(root: HTMLElement): Promise<Blob> {
+export async function captureMapPng(
+  root: HTMLElement,
+  options: CaptureMapOptions = {},
+): Promise<Blob> {
   await waitForMapTiles(root)
 
+  const transparent = options.transparent === true
   const { domToBlob } = await import('modern-screenshot')
   const width = Math.max(root.scrollWidth, root.offsetWidth, 1)
   const height = Math.max(root.scrollHeight, root.offsetHeight, 1)
@@ -80,7 +89,7 @@ export async function captureMapPng(root: HTMLElement): Promise<Blob> {
     width,
     height,
     scale,
-    backgroundColor: pageBackground(),
+    backgroundColor: transparent ? null : pageBackground(),
     maximumCanvasSize: maxEdge,
     timeout: 15_000,
     style: {
@@ -90,6 +99,12 @@ export async function captureMapPng(root: HTMLElement): Promise<Blob> {
       right: 'auto',
       top: 'auto',
       transform: 'none',
+      ...(transparent
+        ? {
+            background: 'transparent',
+            backgroundColor: 'transparent',
+          }
+        : {}),
     },
     fetch: {
       requestInit: { mode: 'cors', credentials: 'omit' },
@@ -106,7 +121,11 @@ export async function captureMapPng(root: HTMLElement): Promise<Blob> {
   return blob
 }
 
-export async function downloadMapPng(root: HTMLElement, filename: string): Promise<void> {
-  const blob = await captureMapPng(root)
+export async function downloadMapPng(
+  root: HTMLElement,
+  filename: string,
+  options: CaptureMapOptions = {},
+): Promise<void> {
+  const blob = await captureMapPng(root, options)
   downloadBlob(blob, filename)
 }

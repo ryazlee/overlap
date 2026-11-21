@@ -1,5 +1,5 @@
 import type { TripStats as Stats } from '../types'
-import { formatElevation, formatKm } from '../utils/geo'
+import { formatDuration, formatElevation, formatMiles } from '../utils/geo'
 
 type TripStatsProps = {
   stats: Stats
@@ -16,7 +16,13 @@ export default function TripStats({ stats }: TripStatsProps) {
       </div>
       <div className="trip-stats__item">
         <dt>Distance</dt>
-        <dd>{formatKm(stats.totalKm)}</dd>
+        <dd>{formatMiles(stats.totalKm)}</dd>
+      </div>
+      <div className="trip-stats__item">
+        <dt>Time</dt>
+        <dd>
+          {stats.totalDurationMs != null ? formatDuration(stats.totalDurationMs) : '—'}
+        </dd>
       </div>
       <div className="trip-stats__item">
         <dt>Elevation</dt>

@@ -9,7 +9,8 @@ Supports **GPX**, **TCX**, and **FIT**. There is no Strava/Apple login — expor
 ## Privacy
 
 - **Track files stay local.** GPX / TCX / FIT are parsed in your browser. Nothing is uploaded to a server, and there is no login or account.
-- **Map tiles are remote.** Viewing and exporting the map loads tiles from a public provider ([CARTO](https://carto.com/) basemaps / [OpenStreetMap](https://www.openstreetmap.org/copyright) data). Your approximate map viewport is visible to that provider the same way it is on any map site.
+- **Map tiles are remote.** Viewing and exporting the map loads tiles from a public provider ([CARTO](https://carto.com/) basemaps / [OpenStreetMap](https://www.openstreetmap.org/copyright) data). Optional hillshade uses [Esri](https://www.esri.com/) World Hillshade. Your approximate map viewport is visible to those providers the same way it is on any map site.
+- **Place names.** Start/end city labels use [Nominatim](https://nominatim.openstreetmap.org/) reverse geocoding (coordinates only; results cached in-session).
 - **Analytics.** Anonymous pageviews go to GoatCounter. Paths only — no track content, filenames, or hashes.
 
 Exported PNGs have no Overlap watermark.
